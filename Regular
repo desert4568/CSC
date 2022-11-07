@@ -1,0 +1,51 @@
+// Regular -- Parse tree node stratagy for printing regular lists
+
+package Special;
+
+import Tree.Cons;
+import Tree.Environment;
+import Tree.Nil;
+import Tree.Node;
+import Print.Printer;
+
+public class Regular extends Special {
+
+    public Regular() {}
+
+    public void print(Node t, int n, boolean p) 
+    {
+        Printer.printRegular(t, n, p);
+    }
+
+    public Node eval(Node t, Environment e)
+    {
+        Node car = t.getCar();
+        Node argument = evalAll(t.getCdr(), e);
+
+        while (car.isSymbol())
+        {
+            car = e.lookup(car);
+        }
+
+        if (car == null || car.isNull())
+        {
+            return null;
+        }
+        if (car.isProcedure())
+        {
+            return car.apply(argument);
+        }
+        else
+        {
+            return car.eval(e).apply(argument);
+        }
+    }
+
+    public Node evalAll(Node t, Environment e)
+    {
+        if (t == null || t.isNull())
+        {
+            return new Cons(Nil.getInstance(), Nil.getInstance())
+        }
+    }
+}
