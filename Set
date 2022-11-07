@@ -1,0 +1,31 @@
+// Set -- Parse tree node strategy for printing the special form set!
+
+package Special;
+
+import Tree.Environment;
+import Tree.Nil;
+import Tree.Node;
+import Print.Printer;
+
+public class Set extends Special {
+
+    public Set() {
+    }
+
+    public void print(Node t, int n, boolean p) {
+        Printer.printSet(t, n, p);
+    }
+
+    public Node eval (Node t, Environment e)
+    {
+        Node current = t.getCdr().getCar();
+        if (!current.isSymbol())
+        {
+            return Nil.getInstance();
+        }
+        Node final = t.getCdr().getCdr().getCar();
+        last = final.eval(final, e);
+        e.assign(current, final);
+        return new StringLit("; " + current.getName() + " - updated.");
+    }
+}
