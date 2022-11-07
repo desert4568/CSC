@@ -1,0 +1,55 @@
+// Let -- Parse tree node strategy for printing the special form let
+
+package Special;
+
+import Tree.Environment;
+import Tree.Nil;
+import Tree.Node;
+import Print.Printer;
+
+public class Let extends Special {
+
+    public Let() {
+    }
+
+    public void print(Node t, int n, boolean p) {
+        Printer.printLet(t, n, p);
+    }
+
+    public Node eval(Node t, Environmennt e)
+     {
+       Node argument = t.getCdr().getCar();
+       Node expression = t.getCdr().getCdr().getCar();
+       Environment currentScope = new Environment(e);
+       argument = evalFrame(argument, currentScope);
+       return expression.eval(currentScope);
+    }
+
+    public Node evalFrame (Node t, Environment e)
+    {
+        if (t == null || t.isNull())
+        {
+            return new Cons(Nil.getInstance(), Nil.getInstance());
+        }
+        else
+        {
+            Node argument = t.getCar().getCar();
+            Node expression = t.getCar().getCdr().getCar();
+            Node errThangElse = t.getCdr();
+            if (argument.isSymbol())
+            {
+                envirnoment.define(argument, expression.eval(e));
+                return evalFrame(errThangElse, e);
+            }
+            else if (argument.isPair())
+            {
+                return argument.eval(e);
+            }
+            else if (argument == null || argument.isNull())
+            {
+                return Nil.getInstance();
+            }
+        }
+        return null;
+    }
+}
