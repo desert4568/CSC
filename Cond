@@ -1,0 +1,37 @@
+// Cond -- Parse tree node strategy for printing the special form cond
+
+package Special;
+
+import Tree.Nil;
+import Tree.Node;
+import Tree.Environment;
+import Print.Printer;
+
+public class Cond extends Special {
+
+    public Cond() {
+    }
+
+    public void print(Node t, int n, boolean p) 
+    {
+        Printer.printCond(t, n, p);
+    }
+
+    public Node eval(Node t, Environment e) 
+    {
+        Node condE = t.getCdr();
+
+        while((!(condE.getCar()).getCar().eval(e).getBoolean()) && (!condE.isNull()))
+        {
+            condE =condE.getCdr();
+        }
+        if (condE.isNull())
+        {
+            return new Nil();
+        }
+        else
+        {
+            return (condE.getCar().getCdr().getCar().eval(e));
+        }
+    }
+}
