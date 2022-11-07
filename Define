@@ -1,0 +1,36 @@
+// Define -- Parse tree node strategy for printing the special form define
+
+package Special;
+
+import Tree.Closure;
+import Tree.Environment;
+import Tree.Node;
+import Print.Printer;
+
+public class Define extends Special {
+
+	public Define() {}
+
+	public void print(Node t, int n, boolean p)
+	 {
+		Printer.printDefine(t, n, p);
+	}
+
+	public Node eval(Node t, Environment e)
+	{
+		Node key = t.getCdr().getCar();
+		Node val = t.getCdr().getCdr().getCar();
+
+		if (key.isSymbol())
+		{
+			e.define(key, val);
+		}
+		else
+		{
+			Closure function = new Closure(new Cons(t.getCdr().getCar().getCdr(), t.getCdr().getCdr()), e);
+			e.define(key.getCar(), function);
+		}
+		return new StrLit("; no values returned");
+
+	}
+}
