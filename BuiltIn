@@ -42,8 +42,10 @@ public class BuiltIn extends Node {
 
     public void print(int n) {
         // there got to be a more efficient way to print n spaces
-        for (int i = 0; i < n; i++)
-            System.out.print(' ');
+        char space = ' ';
+        
+       // for (int i = 0; i < n; i++)
+            System.out.print(space*n);
         System.out.print("#{Built-in Procedure ");
         if (symbol != null)
             symbol.print(-Math.abs(n) - 1);
@@ -62,7 +64,11 @@ public class BuiltIn extends Node {
         }
 
         String name = symbol.getName();
+
         Node car = args.getCar();
+        
+
+
         if (car == null || car.isNull())
         {
             car = Nil.getInstance();
@@ -75,6 +81,200 @@ public class BuiltIn extends Node {
         else
         {
             cdr = cdr.getCar();
+        }
+
+        switch (name) {
+            case "b+":
+                if(car.isNumber() && cdr.isNumber())
+                {
+                    return new IntLit(car.getInt() + cdr.getInt());
+                }
+                else
+                {
+                    System.err.println("Error: arguments of + are not numbers");
+                    return Nil.getInstance();
+                }
+            case "b-":
+                if(car.isNumber() && cdr.isNumber())
+                {
+                    return new IntLit(car.getInt() - cdr.getInt());
+                }
+                else
+                {
+                    System.err.println("Error: arguments of - are not numbers");
+                    return Nil.getInstance();
+                }
+            case "b*":
+                if(car.isNumber() && cdr.isNumber())
+                {
+                    return new IntLit(car.getInt() * cdr.getInt());
+                }
+                else
+                {
+                    System.err.println("Error: arguments of * are not numbers");
+                    return Nil.getInstance();
+                }
+            case "b/":
+                if(car.isNumber() && cdr.isNumber())
+                {
+                    return new IntLit(car.getInt() / cdr.getInt());
+                }
+                else
+                {
+                    System.err.println("Error: arguments of / are not numbers");
+                    return Nil.getInstance();
+                }
+            case "b=":
+                if(car.isNumber() && cdr.isNumber())
+                {
+                    if(car.getInt() == cdr.getInt())
+                    {
+                        return BoolLit.getInstance(true);
+                    }
+                    else
+                    {
+                        return BoolLit.getInstance(false);
+                    }
+                }
+                else
+                {
+                    System.err.println("Error: arguments of = are not numbers");
+                    return Nil.getInstance();
+                }
+            case "b<":
+                if(car.isNumber() && cdr.isNumber())
+                {
+                    if(car.getInt() < cdr.getInt())
+                    {
+                        return BoolLit.getInstance(true);
+                    }
+                    else
+                    {
+                        return BoolLit.getInstance(false);
+                    }
+                }
+                else
+                {
+                    System.err.println("Error: arguments of < are not numbers");
+                    return Nil.getInstance();
+                }
+            case "b>":
+                if(car.isNumber() && cdr.isNumber())
+                {
+                    if(car.getInt() > cdr.getInt())
+                    {
+                        return BoolLit.getInstance(true);
+                    }
+                    else
+                    {
+                        return BoolLit.getInstance(false);
+                    }
+                }
+                else
+                {
+                    System.err.println("Error: arguments of > are not numbers");
+                    return Nil.getInstance();
+                }
+            case "bcons":
+                return new Cons(car, cdr);
+            case "bcar":
+                if(car.isPair())
+                {
+                    return car.getCar();
+                }
+                else
+                {
+                    System.err.println("Error: argument of car is not a pair");
+                    return Nil.getInstance();
+                }
+            case "bcdr":
+                if(car.isPair())
+                {
+                    return car.getCdr();
+                }
+                else
+                {
+                    System.err.println("Error: argument of cdr is not a pair");
+                    return Nil.getInstance();
+                }
+            case "bnull?":
+                if(car.isNull())
+                {
+                    return BoolLit.getInstance(true);
+                }
+                else
+                {
+                    return BoolLit.getInstance(false);
+                }
+            case "bpair?":
+                if(car.isPair())
+                {
+                    return BoolLit.getInstance(true);
+                }
+                else
+                {
+                    return BoolLit.getInstance(false);
+                }
+            case "bnumber?":
+                if(car.isNumber())
+                {
+                    return BoolLit.getInstance(true);
+                }
+                else
+                {
+                    return BoolLit.getInstance(false);
+                }
+            case "bboolean?":
+                if(car.isBoolean())
+                {
+                    return BoolLit.getInstance(true);
+                }
+                else
+                {
+                    return BoolLit.getInstance(false);
+                }
+            case "bsymbol?":
+                if(car.isSymbol())
+                {
+                    return BoolLit.getInstance(true);
+                }
+                else
+                {
+                    return BoolLit.getInstance(false);
+                }
+            case "bstring?":
+                if(car.isString())
+                {
+                    return BoolLit.getInstance(true);
+                }
+                else
+                {
+                    return BoolLit.getInstance(false);
+                }
+            case "bprocedure?":
+                if(car.isProcedure())
+                {
+                    return BoolLit.getInstance(true);
+                }
+                else
+                {
+                    return BoolLit.getInstance(false);
+                }
+            case "bdisplay":
+                System.out.print(car);
+                return Nil.getInstance();
+            case "bnewline":
+                System.out.println();
+                return Nil.getInstance();
+            case "berror":
+                System.err.println(car);
+                return Nil.getInstance();
+            case "bexit":
+                System.exit(0);
+                return Nil.getInstance();
+            default:
+                System.err.println("Error: unknown built-in function " + name);
+                return Nil.getInstance();
         }
 
         if (name.equals("b+"))
