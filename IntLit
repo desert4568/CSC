@@ -19,8 +19,8 @@ public class IntLit extends Node {
 		return true;
 	}
 
-	public Node eval(Environment env) {
-		return this;
+	public Node eval(Node t, Environment e) {
+		return t;
 	}
 
 	public int getVal() {
