@@ -2,9 +2,10 @@
 
 package Special;
 
-import Tree.Nil;
 import Tree.Node;
+import Tree.BooleanLit;
 import Tree.Environment;
+import Tree.Nil;
 import Print.Printer;
 
 public class Cond extends Special {
@@ -12,25 +13,19 @@ public class Cond extends Special {
     public Cond() {
     }
 
-    public void print(Node t, int n, boolean p) 
-    {
+    public void print(Node t, int n, boolean p) {
         Printer.printCond(t, n, p);
     }
 
-    public Node eval(Node t, Environment e) 
-    {
+    public Node eval(Node t, Environment e) {
         Node condE = t.getCdr();
 
-        while((!(condE.getCar()).getCar().eval(e).getBoolean()) && (!condE.isNull()))
-        {
-            condE =condE.getCdr();
+        while ((!((BooleanLit) (condE.getCar()).getCar().eval(e)).getBoolean()) && (!condE.isNull())) {
+            condE = condE.getCdr();
         }
-        if (condE.isNull())
-        {
+        if (condE.isNull()) {
             return new Nil();
-        }
-        else
-        {
+        } else {
             return (condE.getCar().getCdr().getCar().eval(e));
         }
     }
