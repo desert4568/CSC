@@ -32,64 +32,72 @@ public class Cons extends Node {
 	// parseList only look at the car for selecting the appropriate
 	// object from the Special hierarchy and to leave the rest of
 	// parsing up to the interpreter.
-	void parseList() {
+	void parseList() 
+	{
 
-		if (!car.isSymbol())
+		if (! car.isSymbol())
 			form = new Regular();
 		else {
-			String sym = car.getName();
+			String name = car.getName();
 
-			if (sym.equalsIgnoreCase("begin"))
+			if (name.equals("begin"))
 				form = new Begin();
-			else if (sym.equalsIgnoreCase("cond"))
+			else if (name.equals("cond"))
 				form = new Cond();
-			else if (sym.equalsIgnoreCase("define"))
+			else if (name.equals("define"))
 				form = new Define();
-			else if (sym.equalsIgnoreCase("if"))
+			else if (name.equals("if"))
 				form = new If();
-			else if (sym.equalsIgnoreCase("lambda"))
+			else if (name.equals("lambda"))
 				form = new Lambda();
-			else if (sym.equalsIgnoreCase("let"))
+			else if (name.equals("let"))
 				form = new Let();
-			else if (sym.equalsIgnoreCase("quote"))
+			else if (name.equals("quote"))
 				form = new Quote();
-			else if (sym.equalsIgnoreCase("set!"))
+			else if (name.equals("set!"))
 				form = new Set();
 			else
 				form = new Regular();
 		}
 	}
 
-	public void print(int n) {
+	public void print(int n) 
+	{
 		form.print(this, n, false);
 	}
 
-	public void print(int n, boolean p) {
+	public void print(int n, boolean p) 
+	{
 		form.print(this, n, p);
 	}
 
-	public boolean isPair() {
+	public boolean isPair() 
+	{
 		return true;
 	}
 
-	public void setCar(Node a) {
+	public void setCar(Node a) 
+	{
 		car = a;
 		parseList();
 	}
 
-	public void setCdr(Node d) {
+	public void setCdr(Node d) 
+	{
 		cdr = d;
 	}
 
-	public Node getCar() {
+	public Node getCar()
+	 {
 		return car;
 	}
 
-	public Node getCdr() {
+	public Node getCdr() 
+	{
 		return cdr;
 	}
 
-	public Node eval(Node t, Environment e) {
-		return form.eval(t, e);
+	public Node eval(Environment e) {
+		return form.eval(this, e);
 	}
 }
