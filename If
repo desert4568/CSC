@@ -3,9 +3,10 @@
 package Special;
 
 import Tree.BooleanLit;
-import Tree.Node;
 import Tree.Environment;
 import Tree.Nil;
+import Tree.Node;
+
 import Print.Printer;
 
 public class If extends Special {
@@ -17,25 +18,19 @@ public class If extends Special {
         Printer.printIf(t, n, p);
     }
 
-    public Node eval(Node t, Environment env) {
+    public Node eval(Node t, Environment e) {
         Node condition = t.getCdr().getCar();
         Node expression;
-        if (condition.eval(env).getBoolean())
-        {
+        if (((BooleanLit) condition.eval(e)).getBoolean()) {
             expression = t.getCdr().getCdr().getCar();
-            return expression.eval(env);
-        }
-        else if (!(t.getCdr().getCdr().getCdr()).isNull())
-        {
+            return expression.eval(e);
+        } else if (!(t.getCdr().getCdr().getCdr()).isNull()) {
             expression = t.getCdr().getCdr().getCdr().getCar();
-            return expression.eval(env);
-        }
-        else
-        {
+            return expression.eval(e);
+        } else {
             System.err.println("There's not an else expression");
             return Nil.getInstance();
         }
     }
-
 
 }
