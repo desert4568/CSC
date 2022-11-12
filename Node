@@ -60,10 +60,20 @@ public class Node {
         return false;
     }
 
-    public boolean isEnvironment() {
-        return false;
+    public Node eval (Environment e)
+    {
+        if (this.isSymbol())
+        {
+            Ident id = new Ident(this.getName());
+            return id.eval(this, e);
+        }
+        return this;
     }
 
+    public Node apply (Node args)
+    {
+        return Nil.getInstance();
+    }
 
     // Report an error in these default methods and implement them
     // in class Cons. After setCar, a Cons cell needs to be `parsed' again
@@ -75,30 +85,14 @@ public class Node {
         t.print(n, p);
     }
 
-    public static Node getCar(Node t) {
-        return t.getCar();
-    }
-
-    public static Node getCdr(Node t) {
-        return t.getCdr();
-    }
-
-    public static boolean isNull(Node t) {
-        return t.isNull();
-    }
-
-    public static boolean isPair(Node t) {
-        return t.isPair();
-    }
-
     public Node getCar() {
         System.err.println("Error: argument of car is not a pair");
-        return Nil.getInstance();
+        return null;
     }
 
     public Node getCdr() {
         System.err.println("Error: argument of cdr is not a pair");
-        return Nil.getInstance();
+        return null;
     }
 
     public void setCar(Node a) {
@@ -113,12 +107,5 @@ public class Node {
         return "";
     }
 
-    public Node eval(Environment e) {
-        System.err.println("Error: Node.eval not yet implemented");
-        return Nil.getInstance();
-    }
 
-    public Node eval(Node t, Environment e) {
-        return eval(e);
-    }
 }
