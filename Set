@@ -3,8 +3,8 @@
 package Special;
 
 import Tree.Environment;
-import Tree.Nil;
 import Tree.Node;
+import Tree.StrLit;
 import Print.Printer;
 
 public class Set extends Special {
@@ -18,14 +18,9 @@ public class Set extends Special {
 
     public Node eval (Node t, Environment e)
     {
-        Node current = t.getCdr().getCar();
-        if (!current.isSymbol())
-        {
-            return Nil.getInstance();
-        }
-        Node final = t.getCdr().getCdr().getCar();
-        last = final.eval(final, e);
-        e.assign(current, final);
-        return new StringLit("; " + current.getName() + " - updated.");
+        Node key = t.getCdr().getCar();
+        Node expression = t.getCdr().getCdr().getCar();
+        e.define(key, expression.eval(e));
+        return new StrLit("");
     }
 }
