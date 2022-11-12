@@ -52,19 +52,15 @@ public class Environment extends Node {
 		env = e;
 	}
 
-	public boolean isEnvironment() {
-		return true;
-	}
-
 	public void print(int n) {
 		// there got to be a more efficient way to print n spaces
 		for (int i = 0; i < n; i++)
 			System.out.print(' ');
 		System.out.println("#{Environment");
 		if (scope != null)
-			scope.print(Math.abs(n) + 2);
+			scope.print(Math.abs(n) + 4);
 		if (env != null)
-			env.print(Math.abs(n) + 2);
+			env.print(Math.abs(n) + 4);
 		for (int i = 0; i < Math.abs(n); i++)
 			System.out.print(' ');
 		System.out.println('}');
@@ -98,18 +94,41 @@ public class Environment extends Node {
 			return val.getCar();
 	}
 
-	public void define(Node id, Node val) {
-		scope = new Cons(id, new Cons(val, Nil.getInstance()));
+	public void define(Node id, Node val)
+	 {
+		Node value = find(id, scope);
+		if (value == null)
+		{
+			scope = new Cons(new Cons(id, new Cons(val, Nil.getInstance())), scope);
+		}
+		else
+		{
+			value.setCar(val);
+		}
 	}
 
 	public void assign(Node id, Node val) {
-		if (this.lookup(id) != Nil.getInstance()) {
-			find(id, this.scope).setCar(val);
-		} else {
-			System.err.println("Cannot find " + id.getName());
-		}
+	Node value = find(id, scope);
+	if (value == null && env == null)
+	{
+		System.err.println("Variable not defined! :( ");
+	}
+	else if (value == null)
+	{
+		assign(id, env);
+	}
+	else
+	{
+		setCar(new Cons(id, val));
+	}
 
 		// You can use find() to get a list containing the value and
 		// then update the value using setCar()
 	}
+
+	public Node eval(Node t, Environment e)
+	{
+		return Nil.getInstance();
+	}
+
 }
