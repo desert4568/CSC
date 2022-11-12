@@ -45,7 +45,22 @@ public class Regular extends Special {
     {
         if (t == null || t.isNull())
         {
-            return new Cons(Nil.getInstance(), Nil.getInstance())
+            return new Cons(Nil.getInstance(), Nil.getInstance());
+        }
+        else
+        {
+            Node car = t.getCar();
+            Node cdr = t.getCdr();
+            if (car.isSymbol())
+            {
+                car = e.lookup(car);
+            }
+            if (car == null || car.isNull())
+            {
+                return null;
+            }
+            return new Cons(car.eval(e), evalAll(cdr, e));
         }
     }
+
 }
