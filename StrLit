@@ -7,8 +7,11 @@ import Print.Printer;
 public class StrLit extends Node {
     private String strVal;
 
-    public StrLit(String s) {
+    public StrLit(String s, boolean b) {
         strVal = s;
+    }
+
+    public StrLit(String string) {
     }
 
     public void print(int n) {
@@ -19,7 +22,12 @@ public class StrLit extends Node {
         return true;
     }
 
-    public Node eval(Environment env) {
+    public Node eval(Node t, Environment e) {
         return this;
     }
+
+    public String getStrVal() {
+        return strVal;
+    }
+
 }
