@@ -23,11 +23,12 @@ public class Ident extends Node {
         return name;
     }
 
-    public Node eval(Environment env) {
-        Node val = env.lookup(this);
-        if (val != Nil.getInstance()) {
+    public Node eval(Node node, Environment e) {
+        Node val = e.lookup(this);
+        if (val != null) {
             return val;
         }
-        return Nil.getInstance();
+        return null;
     }
+
 }
