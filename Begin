@@ -10,8 +10,7 @@ import Print.Printer;
 
 public class Begin extends Special {
 
-    public Begin() {
-    }
+    public Begin() { }
 
     public void print(Node t, int n, boolean p) {
         {
@@ -21,7 +20,9 @@ public class Begin extends Special {
 
 public Node eval (Node t, Environment e)
 {
-    return null;
+  return null;
 }
+
+
 
 }
