@@ -2,14 +2,12 @@
 
 package Tree;
 
-import java.io.Console;
-
 import Print.Printer;
 
 public class Nil extends Node {
     private static Nil instance = new Nil();
 
-    private Nil() {
+    public Nil() {
     }
 
     public static Nil getInstance() {
@@ -28,6 +26,5 @@ public class Nil extends Node {
         return true;
     }
 
-    System.Error.println("Cannot eval() a Nil node");
-    return null;
+
 }
