@@ -39,20 +39,32 @@ public class Closure extends Node {
             System.out.print(' ');
         System.out.println("#{Procedure");
         if (fun != null)
-            fun.print(Math.abs(n) + 2);
+            fun.print(Math.abs(n) + 4);
         for (int i = 0; i < Math.abs(n); i++)
             System.out.print(' ');
-        System.out.println(" }");
+        System.out.println('}');
     }
 
-    // TODO: The method apply() should be defined in class Node
+    // TO DO: The method apply() should be defined in class Node
     // to report an error. It should be overwritten only in classes
     // BuiltIn and Closure.
     public Node apply(Node args) {
-        return new StrLit("Error: Closure.apply not yet implemented");
+        Environment e = this.getEnv();
+        Node notFun = getFun();
+        Node car = notFun.getCar();
+        notFun = notFun.getCdr().getCar();
+
+        while (args != null && !args.getCar().isNull()) {
+            e.define(car.getCar(), args.getCar());
+            car = car.getCdr();
+            args = args.getCdr();
+        }
+
+        return notFun.eval(e);
     }
 
-    public Node eval(Environment env) {
-        return new StrLit("Error: Closure.eval not implemented");
+    public Node eval(Node t, Environment e) {
+        return Nil.getInstance();
     }
 }
+
