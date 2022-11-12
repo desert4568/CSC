@@ -3,16 +3,18 @@
 package Special;
 
 import Tree.Closure;
+import Tree.Cons;
 import Tree.Environment;
 import Tree.Node;
+import Tree.StrLit;
 import Print.Printer;
 
 public class Define extends Special {
 
-	public Define() {}
+	public Define() {
+	}
 
-	public void print(Node t, int n, boolean p)
-	 {
+	public void print(Node t, int n, boolean p) {
 		Printer.printDefine(t, n, p);
 	}
 
@@ -31,6 +33,6 @@ public class Define extends Special {
 			e.define(key.getCar(), function);
 		}
 		return new StrLit("; no values returned");
-
 	}
+
 }
